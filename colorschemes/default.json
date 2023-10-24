@@ -1,0 +1,7 @@
+{
+	"groups": {
+		"exectime":               "time",
+		"exectime_gradient":      { "fg": "green_yellow_orange_red", "bg": "gray2", "attrs": ["bold"] },
+		"exectime_gradient_bg":   { "fg": "black", "bg": "green_yellow_orange_red", "attrs": ["bold"] }
+	}
+}
