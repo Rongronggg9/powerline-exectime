@@ -35,19 +35,19 @@ systemctl --user restart powerline-daemon.service
 
 In `~/.bashrc`, add the following line RIGHT AFTER the line that sources `powerline.sh`:
 
-```sh
+```bash
 source /path/to/powerline-exectime/bindings/bash/powerline-exectime.sh
 ```
 
 To measure the startup time of Bash, add the following line at the beginning of `~/.bashrc`:
 
-```sh
-_POWERLINE_EXECTIME_TIMER_START="$(date +%s%N)"
+```bash
+_POWERLINE_EXECTIME_TIMER_START="${EPOCHREALTIME/./}"
 ```
 
 If `~/.bashrc` starts with the following lines, the above line should be placed RIGHT AFTER them:
 
-```sh
+```bash
 case $- in
     *i*) ;;
       *) return;;
@@ -58,13 +58,13 @@ esac
 
 If you do all these things correctly, `~/.bashrc` should look like this:
 
-```sh
+```bash
 # something or nothing
 case $- in
     *i*) ;;
       *) return;;
 esac
-_POWERLINE_EXECTIME_TIMER_START="$(date +%s%N)"
+_POWERLINE_EXECTIME_TIMER_START="${EPOCHREALTIME/./}"
 # something or nothing
 source /usr/share/powerline/bindings/bash/powerline.sh
 source /path/to/powerline-exectime/bindings/bash/powerline-exectime.sh
