@@ -2,8 +2,8 @@
 
 from powerline.theme import requires_segment_info
 
-MILLISECONDS = 1000
-NANOSECONDS = 1000000000
+MILLISECONDS = 10 ** 3  # ms
+MICROSECONDS = 10 ** 6  # µs
 HIGHLIGHT_GROUPS = ['exectime_gradient', 'system_load_gradient', 'network_load_gradient', 'system_load']
 
 
@@ -19,10 +19,10 @@ def fmt_time(t, significant_figures, max_parts):
         buf = ''
         parts = 0
         t_sig = fmt_significant(t, significant_figures).split('.')
-        t = int(t_sig[0])
+        seconds = int(t_sig[0])
         frac = t_sig[1] if len(t_sig) > 1 else ''
-        seconds = t % 60
-        minutes = t // 60
+        minutes = seconds // 60
+        seconds %= 60
         hours = minutes // 60
         minutes %= 60
         days = hours // 24
@@ -85,7 +85,7 @@ def exectime(
         end, start = segment_info['exec_end'], segment_info['exec_start']
     except KeyError:
         return None
-    t = (float(end) - float(start)) / NANOSECONDS
+    t = (float(end) - float(start)) / MICROSECONDS
     if t <= threshold:
         return None
     gradient_level = (t - gradient_range_low) / (gradient_range_high - gradient_range_low) * 100

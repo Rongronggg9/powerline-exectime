@@ -4,12 +4,14 @@ if [ "$(type -t _powerline_status_wrapper)" != "function" ]; then
 	return
 fi
 
-PS0='\[${PS1:$((_POWERLINE_EXECTIME_TIMER_START="$(date +%s%N)")):0}\]'
+# only interger is valid in arithmetic expressions, so '.' must be removed
+# removing '.' is equivalent to EPOCHREALTIME*10^6
+PS0='\[${PS1:$((_POWERLINE_EXECTIME_TIMER_START="${EPOCHREALTIME/./}")):0}\]'
 
 # override the vanilla powerline function
 _powerline_status_wrapper() {
 	# copied from powerline/bindings/bash/powerline.sh and modified
-	local last_exit_code=$? last_pipe_status=( "${PIPESTATUS[@]}" ) timer_end=$(date +%s%N)
+	local last_exit_code="$?" last_pipe_status=( "${PIPESTATUS[@]}" ) timer_end="${EPOCHREALTIME/./}"
 
 	if ! _powerline_has_pipestatus \
 	   || test "${#last_pipe_status[@]}" -eq "0" \
