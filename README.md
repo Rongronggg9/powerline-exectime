@@ -42,7 +42,7 @@ source /path/to/powerline-exectime/bindings/bash/powerline-exectime.sh
 To measure the startup time of Bash, add the following line at the beginning of `~/.bashrc`:
 
 ```bash
-_POWERLINE_EXECTIME_TIMER_START="${EPOCHREALTIME/./}"
+_POWERLINE_EXECTIME_TIMER_START="${EPOCHREALTIME/[^0-9]/}"
 ```
 
 If `~/.bashrc` starts with the following lines, the above line should be placed RIGHT AFTER them:
@@ -52,8 +52,7 @@ case $- in
     *i*) ;;
       *) return;;
 esac
-# ==== INSERT _POWERLINE_EXECTIME_TIMER_START="$(date +%s%N)" HERE
-# ==== DO NOT source powerline.sh or powerline-exectime.sh BEFORE THIS LINE ====
+# ==== INSERT HERE ====
 ```
 
 If you do all these things correctly, `~/.bashrc` should look like this:
@@ -64,11 +63,11 @@ case $- in
     *i*) ;;
       *) return;;
 esac
-_POWERLINE_EXECTIME_TIMER_START="${EPOCHREALTIME/./}"
-# something or nothing
+_POWERLINE_EXECTIME_TIMER_START="${EPOCHREALTIME/[^0-9]/}"
+# do something...
 source /usr/share/powerline/bindings/bash/powerline.sh
 source /path/to/powerline-exectime/bindings/bash/powerline-exectime.sh
-# something or nothing
+# do something...
 ```
 
 #### Other Shells
