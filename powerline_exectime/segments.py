@@ -1,10 +1,17 @@
 # vim:fileencoding=utf-8:noet
+from math import log10, ceil
+from time import time
 
 from powerline.theme import requires_segment_info
 
 MILLISECONDS = 10 ** 3  # ms
-MICROSECONDS = 10 ** 6  # µs
 HIGHLIGHT_GROUPS = ['exectime_gradient', 'system_load_gradient', 'network_load_gradient', 'system_load']
+
+
+def guess_ts_multiplier(ts):
+    approx_multiplier = ts / time()
+    exponent = ceil(log10(approx_multiplier))
+    return 10 ** -exponent
 
 
 def fmt_significant(f, significant_figures):
@@ -77,20 +84,25 @@ def exectime(
     :param list highlight_groups:
         Override the default highlight groups.
     """
-    if highlight_groups is None:
-        highlight_groups = []
-    elif not isinstance(highlight_groups, list):
-        highlight_groups = [highlight_groups]
     try:
         end, start = segment_info['exec_end'], segment_info['exec_start']
     except KeyError:
         return None
-    t = (float(end) - float(start)) / MICROSECONDS
+
+    t = (float(end) - float(start)) * guess_ts_multiplier(end)
     if t <= threshold:
         return None
+
+    if highlight_groups is None:
+        highlight_groups = HIGHLIGHT_GROUPS
+    elif not isinstance(highlight_groups, list):
+        highlight_groups = [highlight_groups] + HIGHLIGHT_GROUPS
+    else:
+        highlight_groups += HIGHLIGHT_GROUPS
+
     gradient_level = (t - gradient_range_low) / (gradient_range_high - gradient_range_low) * 100
     return [{
         'contents': fmt_time(t, significant_figures, max_parts),
-        'highlight_groups': highlight_groups + HIGHLIGHT_GROUPS,
+        'highlight_groups': highlight_groups,
         'gradient_level': max(min(gradient_level, 100), 0)
     }]

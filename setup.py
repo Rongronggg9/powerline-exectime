@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 setup(
     name='powerline-exectime',
     description='A Powerline segment to show the execution time of the last command',
-    version='0.3.0',
+    version='0.4.0',
     keywords='powerline terminal console shell bash',
     license='MIT',
     author='Rongrong',
