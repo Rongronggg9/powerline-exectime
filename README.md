@@ -36,7 +36,7 @@ systemctl --user restart powerline-daemon.service
 In `~/.bashrc`, add the following line RIGHT AFTER the line that sources `powerline.sh`:
 
 ```bash
-source /path/to/powerline-exectime/bindings/bash/powerline-exectime.sh
+source /path/to/powerline_exectime/bindings/bash/powerline-exectime.sh
 ```
 
 To measure the startup time of Bash, add the following line at the beginning of `~/.bashrc`:
