@@ -1,9 +1,13 @@
 # Powerline Exectime
 
-A Powerline segment to show the execution time of the last command. If configured properly, the startup
-time of the shell can be measured as well.
+A Powerline segment to show the execution time of the last command.
+If configured properly, the startup time (consumed by `.bashrc`, etc.) of the shell can be measured as well.
 
-![screenshot](screenshot.png)
+![Screenshot (default)](screenshots/default.png)
+
+By default, only wall time is measured. Setting `enable_user_sys_time` to true enables user and system time measurement.
+
+![Screenshot (with user/sys time measurement)](screenshots/user_sys_time.png)
 
 ## Installation
 
@@ -86,13 +90,30 @@ before adding the segment.
 ```json
 {
   "function": "powerline_exectime.exectime",
+  "priority": 30
+}
+```
+
+Or passing arguments for further customization:
+
+> Refer to [powerline_exectime/segments.py](powerline_exectime/segments.py) for pydoc and default value.
+
+```json
+{
+  "function": "powerline_exectime.exectime",
   "args": {
     "threshold": 0.0,
     "significant_figures": 3,
     "max_parts": 2,
     "gradient_range_low": 0.5,
     "gradient_range_high": 30.0,
-    "highlight_groups": ["exectime_gradient"]
+    "highlight_groups": [
+      "exectime_gradient_bg"
+    ],
+    "wall_time_prefix": "",
+    "user_time_prefix": "u:",
+    "sys_time_prefix": "s:",
+    "enable_user_sys_time": true
   },
   "priority": 30
 }
